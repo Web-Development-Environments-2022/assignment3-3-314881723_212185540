@@ -18,6 +18,7 @@
         <li><span>Gloten:</span><font-awesome-icon icon="fa-solid fa-salad" /> {{Recipe.vegetarian}}</li>
         <li><font-awesome-icon icon="fa-solid fa-user-secret" /> <span>already Watch:</span>{{IndicationAboutRecipe.alreadyWatchFlag}}</li>
         <li><b-icon icon="cloud-download" style="font-size: 2rem;"></b-icon> <span>already Save:</span>{{IndicationAboutRecipe.alreadySaveFlag}}</li>
+        
       </ul> 
    </b-card-text>
   </b-card>
@@ -45,12 +46,12 @@ export default {
       type: Object,
       required: true
     },
-        IndicationAboutRecipe: {
-        type: Object,
-        required: false,
-        default() {
-        return undefined;
-      }
+    IndicationAboutRecipe: {
+      type: Object,
+      required: false,
+      default() {
+      return undefined;
+    }
     },
     Recipe: {
         type: Object,
