@@ -3,12 +3,12 @@
   <div class="container">
            
       <b-container fluid class="p-5 bg-dark" style=" width: 380px; margin-left: -60px;" >
-      <h3 style="margin-left:-40px; margin-top: -30px;"><b-badge>Show random Racipes</b-badge></h3>
+      <h3 style="margin-left:-40px; margin-top: -30px;"><b-badge>Show random Recipes</b-badge></h3>
 
     <RandomRecipe :recipe="RecipeRandom1" ></RandomRecipe>
     <RandomRecipe :recipe="RecipeRandom2" ></RandomRecipe>
     <RandomRecipe :recipe="RecipeRandom3" ></RandomRecipe>
-    <b-button variant="info" @click="reloadPage"><b-spinner type="grow" label="Loading..."></b-spinner>  <span style=" margin-bottom: 500px;">Shupple</span></b-button>
+    <b-button variant="info" @click="reloadPage"><b-spinner type="grow" label="Loading..."></b-spinner>  <span style=" margin-bottom: 500px;">Shuffle</span></b-button>
     </b-container>
        <div id="Gust" v-if="!$root.store.username" >
      <div>
@@ -27,7 +27,14 @@
 
   </div>
   
-  <div id="UserLogIn"  style="margin-top:-1200px ; margin-left: -400px;" v-else>
+  <!-- <div id="UserLogIn"  style="margin-top:-1200px ; margin-left: -400px;" v-else>
+  <PreviewRecipe :recipe_id= "this.LastWatch1"  v-if="this.LastWatch1" ></PreviewRecipe>
+  <PreviewRecipe :recipe_id= "this.LastWatch2"  v-if="this.LastWatch2" ></PreviewRecipe>
+  <PreviewRecipe :recipe_id= "this.LastWatch3"  v-if="this.LastWatch3" ></PreviewRecipe>
+
+  </div> -->
+  <div id="UserLogIn"  style="margin-top:-1250px ; margin-left: 700px; display: inline-block;" v-else>
+  <h3 style="margin-left:-40px; margin-top: -30px; "><b-badge>Show last 3 Watched Recipes</b-badge></h3>
   <PreviewRecipe :recipe_id= "this.LastWatch1"  v-if="this.LastWatch1" ></PreviewRecipe>
   <PreviewRecipe :recipe_id= "this.LastWatch2"  v-if="this.LastWatch2" ></PreviewRecipe>
   <PreviewRecipe :recipe_id= "this.LastWatch3"  v-if="this.LastWatch3" ></PreviewRecipe>

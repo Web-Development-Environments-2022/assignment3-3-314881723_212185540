@@ -17,7 +17,7 @@
     <nav class="navbar navbar-expand-lg navbar-light" style="margin-top: -72px; margin-left: 800px;background-color:#F5F5F5" v-if="!$root.store.username"  >
     <ul class="navbar-nav"  >
         <li class="nav-item active"  >
-         <b-nav-item class="nav-link active"  ><b-icon-person-circle></b-icon-person-circle> <span >Hello Gust !</span></b-nav-item>
+         <b-nav-item class="nav-link active"  ><b-icon-person-circle></b-icon-person-circle> <span >Hello Guest!</span></b-nav-item>
          </li>
          <li>
          <b-nav-item class="nav-link active" :to="{ name: 'register' }">Register</b-nav-item>
@@ -28,7 +28,7 @@
     </ul>
 
     </nav>
-        <nav class="navbar navbar-expand-lg navbar-light" style="margin-top: -72px; margin-left: 700px;background-color:#F5F5F5" v-else  >
+        <nav class="navbar navbar-expand-lg navbar-light" style="margin-top: -72px; margin-left: 1500px;background-color:#F5F5F5" v-else  >
     <ul class="navbar-nav"  >
         <li class="nav-item active"  >
          <b-nav-item class="nav-link active"  ><b-icon-person-circle></b-icon-person-circle> <span >Hello,{{$root.store.username}} !</span></b-nav-item>
