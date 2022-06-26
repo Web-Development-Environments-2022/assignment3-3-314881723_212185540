@@ -5,10 +5,37 @@ import axios from "axios";
 
 import routes from "./routes";
 import VueRouter from "vue-router";
+axios.defaults.withCredentials = true;
+
 Vue.use(VueRouter);
 const router = new VueRouter({
   routes,
 });
+
+
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
+
+Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
+
+/* import the fontawesome core */
+import { library } from '@fortawesome/fontawesome-svg-core'
+
+/* import font awesome icon component */
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+/* import specific icons */
+import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
+
+/* add icons to the library */
+library.add(faUserSecret)
+
+/* add font awesome icon component */
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
+Vue.config.productionTip = false
+
+
 
 import Vuelidate from "vuelidate";
 import "bootstrap/dist/css/bootstrap.css";
@@ -77,6 +104,30 @@ const shared_data = {
     console.log("logout");
     localStorage.removeItem("username");
     this.username = undefined;
+  },
+  query1: localStorage.query1,
+  setQuery1(query1) {
+    if (localStorage.query1) {
+      localStorage.query1 = query1;
+    } else {
+      localStorage.setItem("query1", query1);
+    }
+  },
+  removeQuery1() {
+    localStorage.removeItem("query1");
+    this.query1 = undefined;
+  },
+  query2: localStorage.query2,
+  setQuery2(query2) {
+    if (localStorage.query2) {
+      localStorage.query2 = query2;
+    } else {
+      localStorage.setItem("query2", query2);
+    }
+  },
+  removeQuery2() {
+    localStorage.removeItem("query2");
+    this.query2 = undefined;
   },
 };
 console.log(shared_data);

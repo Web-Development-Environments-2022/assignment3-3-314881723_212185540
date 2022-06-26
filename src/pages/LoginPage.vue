@@ -17,6 +17,7 @@
         <b-form-invalid-feedback>
           Username is required
         </b-form-invalid-feedback>
+        
       </b-form-group>
 
       <b-form-group
@@ -64,7 +65,12 @@
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators";
+import {  required,
+  minLength,
+  maxLength,
+  alpha,
+  sameAs,
+  email } from "vuelidate/lib/validators";
 export default {
   name: "Login",
   data() {
@@ -80,9 +86,14 @@ export default {
     form: {
       username: {
         required
+         //length: (u) => minLength(3)(u) && maxLength(8)(u),
+        //alpha
       },
       password: {
         required
+        //containsUppercase: (p)=> /[A-Z]/.test(p),
+        //containsNumber : (p)=> /[0-9]/.test(p),
+        //length: (p) => minLength(5)(p) && maxLength(10)(p)
       }
     }
   },
@@ -93,13 +104,8 @@ export default {
     },
     async Login() {
       try {
-        
         const response = await this.axios.post(
-          // "https://test-for-3-2.herokuapp.com/user/Login",
-          this.$root.store.server_domain +"/Login",
-          // "http://132.72.65.211:80/Login",
-          // "http://132.73.84.100:80/Login",
-
+          "http://localhost:80" +"/Login",
           {
             username: this.form.username,
             password: this.form.password
@@ -109,21 +115,36 @@ export default {
         // this.$root.loggedIn = true;
         console.log(this.$root.store.login);
         this.$root.store.login(this.form.username);
+        try {
+        const response = await this.axios.get(
+           "http://localhost:80"+"/users/user_last_3_watch",
+        );
+        const RecipeData = response.data;
+        this.$root.store.setQuery1(RecipeData[0].History_Watch_R1);
+        this.$root.store.setQuery2(RecipeData[0].History_Watch_R2);
+        //this.LastWatch2=RecipeData[0].History_Watch_R2;
+        //this.LastWatch3=RecipeData[0].History_Watch_R3;
+
+      } catch (error) {
+        console.log(error);
+      }
         this.$router.push("/");
       } catch (err) {
+        window.alert(err.response.data.message);
         console.log(err.response);
         this.form.submitError = err.response.data.message;
       }
     },
     onLogin() {
-      // console.log("login method called");
+      
+      //console.log("login method called");
       this.form.submitError = undefined;
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
         return;
       }
-      // console.log("login method go");
-
+      //console.log("login method go");
+     
       this.Login();
     }
   }

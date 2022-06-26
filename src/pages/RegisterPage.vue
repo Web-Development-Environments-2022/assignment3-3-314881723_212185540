@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="title">Register</h1>
+    <h1 class="title" style="margin-top:-40px;">Register</h1>
     <b-form @submit.prevent="onRegister" @reset.prevent="onReset">
       <b-form-group
         id="input-group-username"
@@ -24,7 +24,40 @@
           Username alpha
         </b-form-invalid-feedback>
       </b-form-group>
+      <b-form-group id="input-group-firstname" label-cols-sm="3" label="First Name:" label-for="firstname">
+        <b-form-input
+          id="firstname"
+          v-model="$v.form.firstname.$model"
+          type="text"
+          :state="validateState('firstname')"
+        ></b-form-input>
+        <b-form-invalid-feedback v-if="!$v.form.firstname.required">
+          First Name is required
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.firstname.alpha">
+          First Name alpha 
+        </b-form-invalid-feedback>
+      </b-form-group>
 
+      <b-form-group
+        id="input-group-lastname"
+        label-cols-sm="3"
+        label="Last Name:"
+        label-for="lastname"
+      >
+        <b-form-input
+          id="lastname"
+          v-model="$v.form.lastname.$model"
+          type="text"
+          :state="validateState('lastname')"
+        ></b-form-input>
+        <b-form-invalid-feedback v-if="!$v.form.lastname.required">
+          Last Name is required
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.lastname.alpha">
+          Last Name alpha 
+        </b-form-invalid-feedback>
+      </b-form-group>
       <b-form-group
         id="input-group-country"
         label-cols-sm="3"
@@ -59,7 +92,9 @@
         </b-form-invalid-feedback>
         <b-form-text v-else-if="$v.form.password.$error" text-variant="info">
           Your password should be <strong>strong</strong>. <br />
-          For that, your password should be also:
+          For that, your password should be also:<br />
+          Contain at least 1 Big Letter and at least one number!
+
         </b-form-text>
         <b-form-invalid-feedback
           v-if="$v.form.password.required && !$v.form.password.length"
@@ -136,8 +171,8 @@ export default {
     return {
       form: {
         username: "",
-        firstName: "",
-        lastName: "",
+        firstname: "",
+        lastname: "",
         country: null,
         password: "",
         confirmedPassword: "",
@@ -156,11 +191,21 @@ export default {
         length: (u) => minLength(3)(u) && maxLength(8)(u),
         alpha
       },
+      firstname:{
+      required,
+        alpha
+      },
+      lastname:{
+      required,
+        alpha
+      },
       country: {
         required
       },
       password: {
         required,
+        containsUppercase: (p)=> /[A-Z]/.test(p),
+        containsNumber : (p)=> /[0-9]/.test(p),
         length: (p) => minLength(5)(p) && maxLength(10)(p)
       },
       confirmedPassword: {
@@ -183,11 +228,15 @@ export default {
       try {
         const response = await this.axios.post(
           // "https://test-for-3-2.herokuapp.com/user/Register",
-          this.$root.store.server_domain + "/Register",
+         "http://localhost:80" + "/Register",
 
           {
             username: this.form.username,
-            password: this.form.password
+            firstname: this.form.firstname,
+            lastname: this.form.lastname,
+            country: this.form.country,
+            password: this.form.password,
+            email: this.form.email,
           }
         );
         this.$router.push("/login");

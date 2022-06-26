@@ -1,8 +1,26 @@
 <template>
-
-  <router-link
+<div>
+ <b-card
+    :title="recipe.title"
+    :img-src="recipe.image"
+    img-alt="Image"
+    img-top
+    tag="article"
+    style="max-width: 20rem;"
+    class="mb-2">
+  
+    <b-card-text>
+    <ul class="recipe-overview" style="list-style-type: none;">
+        <li><b-icon-heart-fill style="font-size: 2rem;"></b-icon-heart-fill> {{ recipe.popularity}}</li>
+        <li> <b-icon-clock-history style="font-size: 2rem;"></b-icon-clock-history> {{recipe.readyInMinutes}} </li>
+      </ul> 
+   </b-card-text>
+  </b-card>
+      </div>
+  <!-- <router-link
     :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
     class="recipe-preview">
+    
     <div class="recipe-body">
       <img v-if="image_load" :src="recipe.image" class="recipe-image" />
     </div>
@@ -15,57 +33,38 @@
         <li>{{ recipe.aggregateLikes }} likes</li>
       </ul>
     </div>
-  </router-link>
+
+  </router-link> -->
+
 </template>
 
 <script>
-
 export default {
-  name:"RecipePreview",
-  mounted() {
-   // his.axios.get(this.recipe.image).then((i) => {
-     // this.image_load = true;
-     //console.log(2);
-    //});
-  },
-  data() {
-    return {
-      image_load: false
-    };
-  },
-  props: {
-    //recipe: {
-      //type: Object,
-      //required: true
-    //},
-    id: {
-      type: Number,
+    name: 'RandomRecipe',
+     props: {
+     recipe: {
+      type: Object,
       required: true
-    },
-    title: {
-      type: String,
-      required: true
-    },
-    readyInMinutes: {
-      type: Number,
-      required: true
-    },
-    image: {
-      type: String,
-      required: true
-    },
-    aggregateLikes: {
-      type: Number,
-      required: false,
-      default() {
-        return undefined;
-      }
     }
-  }
+  },
+
+    data() {
+        return {
+            
+        };
+    },
+
+    mounted() {
+        
+    },
+
+    methods: {
+        
+    },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .recipe-preview {
   display: inline-block;
   width: 90%;
@@ -95,7 +94,7 @@ export default {
 .recipe-preview .recipe-footer {
   width: 100%;
   height: 50%;
-  /* overflow: hidden; */
+   overflow: hidden; 
 }
 
 .recipe-preview .recipe-footer .recipe-title {
@@ -104,7 +103,7 @@ export default {
   font-size: 12pt;
   text-align: left;
   white-space: nowrap;
-  /* overflow: hidden; */
+  overflow: hidden; 
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }
@@ -126,6 +125,7 @@ export default {
   flex: 1 auto;
   table-layout: fixed;
   margin-bottom: 0px;
+    list-style-type: none;
 }
 
 .recipe-preview .recipe-footer ul.recipe-overview li {
@@ -140,4 +140,5 @@ export default {
   display: table-cell;
   text-align: center;
 }
+
 </style>
