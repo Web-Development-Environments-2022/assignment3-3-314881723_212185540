@@ -13,8 +13,8 @@
          <b-nav-item class="nav-link active" :to="{ name: 'about' }">About</b-nav-item>
       </li>
     </ul>
-    </nav>
-    <nav class="navbar navbar-expand-lg navbar-light" style="margin-top: -72px; margin-left: 800px;background-color:#F5F5F5" v-if="!$root.store.username"  >
+  </nav>
+  <nav class="navbar navbar-expand-lg navbar-light" style="margin-top: -72px; margin-left: 800px;background-color:#F5F5F5" v-if="!$root.store.username"  >
     <ul class="navbar-nav"  >
         <li class="nav-item active"  >
          <b-nav-item class="nav-link active"  ><b-icon-person-circle></b-icon-person-circle> <span >Hello Guest!</span></b-nav-item>
@@ -28,7 +28,7 @@
     </ul>
 
     </nav>
-        <nav class="navbar navbar-expand-lg navbar-light" style="margin-top: -72px; margin-left: 1500px;background-color:#F5F5F5" v-else  >
+    <nav class="navbar navbar-expand-lg navbar-light" style="margin-top: -72px; margin-left: 1500px;background-color:#F5F5F5" v-else  >
     <ul class="navbar-nav"  >
         <li class="nav-item active"  >
          <b-nav-item class="nav-link active"  ><b-icon-person-circle></b-icon-person-circle> <span >Hello,{{$root.store.username}} !</span></b-nav-item>
