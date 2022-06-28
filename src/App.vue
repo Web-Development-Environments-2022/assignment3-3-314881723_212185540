@@ -14,7 +14,7 @@
       </li>
     </ul>
   </nav>
-  <nav class="navbar navbar-expand-lg navbar-light" style="margin-top: -72px; margin-left: 800px;background-color:#F5F5F5" v-if="!$root.store.username"  >
+  <nav class="navbar navbar-expand-lg navbar-light" style="margin-top: -72px; margin-left: 1500px;background-color:#F5F5F5" v-if="!$root.store.username"  >
     <ul class="navbar-nav"  >
         <li class="nav-item active"  >
          <b-nav-item class="nav-link active"  ><b-icon-person-circle></b-icon-person-circle> <span >Hello Guest!</span></b-nav-item>
@@ -26,33 +26,29 @@
          <b-nav-item class="nav-link active" :to="{ name: 'login' }">Login</b-nav-item>
          </li>
     </ul>
-
-    </nav>
-    <nav class="navbar navbar-expand-lg navbar-light" style="margin-top: -72px; margin-left: 1500px;background-color:#F5F5F5" v-else  >
+  </nav>
+  <nav class="navbar navbar-expand-lg navbar-light" style="margin-top: -72px; margin-left: 1500px;background-color:#F5F5F5" v-else  >
     <ul class="navbar-nav"  >
-        <li class="nav-item active"  >
-         <b-nav-item class="nav-link active"  ><b-icon-person-circle></b-icon-person-circle> <span >Hello,{{$root.store.username}} !</span></b-nav-item>
-         </li>
-          <li>
-    
-    <b-dropdown id="dropdown-1" text="Personal" class="m-md-2"  >
-    <b-dropdown-item :to="{ name: 'register' }">Favorites</b-dropdown-item>
-    <b-dropdown-item :to="{ name: 'register' }">Private</b-dropdown-item>
-    <b-dropdown-item :to="{ name: 'register' }">Family Recipe</b-dropdown-item>
-    <b-dropdown-item :to="{ name: 'register' }">Create Recipe</b-dropdown-item>
-  </b-dropdown>
-         </li>
-          <li>
-         <b-nav-item class="nav-link active"  @click="Logout">Logout</b-nav-item>
-         </li>
+      <li class="nav-item active"  >
+        <b-nav-item class="nav-link active"  ><b-icon-person-circle></b-icon-person-circle> <span >Hello,{{$root.store.username}} !</span></b-nav-item>
+      </li>
+      <li> 
+        <b-dropdown id="dropdown-1" text="Personal" class="m-md-2"  >
+          <b-dropdown-item :to="{ name: 'register' }">Favorites</b-dropdown-item>
+          <b-dropdown-item :to="{ name: 'register' }">Private</b-dropdown-item>
+          <b-dropdown-item :to="{ name: 'register' }">Family Recipe</b-dropdown-item>
+          <b-dropdown-item v-b-modal="'modal-prevent-closing'">Create Recipe</b-dropdown-item>
+        </b-dropdown>
+      <CreateRecipe></CreateRecipe>  
+      </li>
+      <li>
+        <b-nav-item class="nav-link active"  @click="Logout">Logout</b-nav-item>
+      </li>
     </ul>
-
-    </nav>
-
-    <div id="nav">
-
-    </div>
-    <router-view />
+  </nav>
+  <div id="nav">
+  </div>
+  <router-view />
   </div>
 </template>
 
@@ -61,8 +57,12 @@
 //1.Open terminal
 //2.npm install
 //3.npm run serve
+import CreateRecipe from "./components/CreateRecipe.vue";
 export default {
   name: "App",
+  components:{
+    CreateRecipe
+  },
   methods: {
     Logout() {
        
