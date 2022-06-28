@@ -129,6 +129,15 @@ const shared_data = {
     localStorage.removeItem("query2");
     this.query2 = undefined;
   },
+  searchResults: localStorage.searchResults,
+  setSearchResults(searchResults){
+      console.log("yo")
+      localStorage.setItem("searchResults", searchResults);
+  },
+  removeSearchResults() {
+    localStorage.removeItem("searchResults");
+    this.searchResults = undefined;
+  },
 };
 console.log(shared_data);
 // Vue.prototype.$root.store = shared_data;

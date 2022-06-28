@@ -84,14 +84,19 @@
     </section>
     <!-- ReturnedRecipes: -->
     <div>
-      <div></div>
+      <h1 class="title" style="margin-left:160px" >Recipes:</h1>
+      <b-dropdown id="dropdown-2" text="Sort By" style="margin-left:160px" v-if="this.recipes != ''">
+          <b-dropdown-item @click="sortByTime()">Time</b-dropdown-item>
+          <b-dropdown-item @click="sortByLikes()">Likes</b-dropdown-item>
+      </b-dropdown>   
     </div>
+    <h1 class="title" style="margin-left:300px" v-if="this.recipes.length == 0" >0 Search results for the given query</h1>
     <section style="margin-left: 180px" class="ReturnedRecipes" v-if="this.recipes != ''">
       <b-card-group deck>
         <PreviewRecipeOnly v-for="recipe in this.recipes"
-        :key="recipe.id"
-        :Recipe="recipe"
-        ></PreviewRecipeOnly>
+          :key="recipe.id"
+          :Recipe="recipe"
+        ></PreviewRecipeOnly>         
       </b-card-group>
     </section>
   </div>
@@ -113,6 +118,18 @@ export default {
 
       query:'',
       recipes:'',
+    }
+  },
+  mounted(){
+    if (localStorage.getItem('searchResults') && localStorage.getItem('username')){
+      try {
+        this.recipes = JSON.parse(localStorage.getItem('searchResults'));
+      } catch(e) {
+        localStorage.removeItem('searchResults');
+      }
+    }
+    else{
+      this.recipes = '';
     }
   },
   methods:{
@@ -156,11 +173,39 @@ export default {
         );
         const RecipesData = response.data;
         this.recipes=RecipesData;
+        const parsed = JSON.stringify(this.recipes)
+        this.$root.store.setSearchResults(parsed)
+        console.log(this.$root.store.searchResults)
         console.log(this.recipes)
       } catch (error) {
         console.log(error);
       }
     },
+    sortByTime(){
+      this.recipes.sort(this.compare_Time);
+    },
+    sortByLikes(){
+      this.recipes.sort(this.compare_Likes);
+      this.recipes.reverse();
+    },
+    compare_Time( a, b ){
+      if ( a.readyInMinutes < b.readyInMinutes){
+        return -1;
+      }
+      if ( a.readyInMinutes > b.readyInMinutes){
+        return 1;
+      }
+      return 0;
+    },
+    compare_Likes( a, b ){
+      if ( a.popularity < b.popularity){
+        return -1;
+      }
+      if ( a.popularity > b.popularity){
+        return 1;
+      }
+      return 0;
+    }
   },
 }
 </script>

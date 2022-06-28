@@ -15,7 +15,8 @@
                 <li> <b-icon-clock-history style="font-size: 2rem;"></b-icon-clock-history><span> Time:</span> {{Recipe.readyInMinutes}} </li>
                 <li><b-icon icon="egg" style="font-size: 2rem;"></b-icon><span>Vegan:</span> {{Recipe.vegan}}</li>
                 <li><span>Vegeterian:</span> {{Recipe.vegetarian}}</li>
-                <li><span>Gloten:</span> {{Recipe.vegetarian}}</li>
+                <li><span>Gluten-Free:</span> {{Recipe.glutenFree}}</li>
+                <li :href="getInstructions()"><span>Instructions: <br></span> {{Instructions}}</li>
             </ul> 
             </b-card-text>
         </b-card>
@@ -28,27 +29,36 @@ import { faLeftRight } from '@fortawesome/free-solid-svg-icons';
 export default {
     name: 'PreviewRecipeOnly',
     props: {
-     recipe_id: {
-      type: Number,
-      required: false
-    },
-    Recipe: {
+      recipe_id: {
+        type: Number,
+        required: false
+      },
+      Recipe: {
         type: Object,
         required: false,
         default() {
         return undefined;
       }
-    }, 
+      },
     },
     data() {
         return {
-            
+            Instructions: ''
         };
     },
     mounted() {
     },
     methods: {
-
+      getInstructions(){
+        let returnedstring =''
+        for (let i = 0; i < this.Recipe.analyzedInstructions.length ; i++){ //go over every Instruction
+          returnedstring += 'Part ' + (i+1) + ': ';
+          for (let j = 0; j < this.Recipe.analyzedInstructions[i].steps.length ; j++){ //go over every step
+            returnedstring += 'Step ' + (j+1) + ': ' + this.Recipe.analyzedInstructions[i].steps[j].step + ' ';
+          }
+        }
+        this.Instructions = returnedstring;
+      }
     },
 
 };
