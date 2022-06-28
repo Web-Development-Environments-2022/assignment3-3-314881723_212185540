@@ -52,7 +52,7 @@ export default {
   components: {
     RandomRecipe,
     LoginPage,
-    PreviewRecipe
+    PreviewRecipe,
   },
        props: {
         LastWatch1: Object,
