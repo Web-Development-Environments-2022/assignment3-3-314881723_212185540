@@ -10,7 +10,7 @@
           <div class="wrapped">
             <div class="mb-3">
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
-              <div>Likes: {{ recipe.aggregateLikes }} likes</div>
+              <div>Likes: {{ recipe.popularity }} likes</div>
             </div>
             Ingredients:
             <ul>
@@ -43,6 +43,7 @@
 
 <script>
 export default {
+  name:"RecipeViewPage",
   data() {
     return {
       recipe: null
@@ -52,33 +53,31 @@ export default {
     try {
       let response;
       // response = this.$route.params.response;
-
       try {
+        console.log(localStorage.getItem('query3'))
+        let recipe_id=JSON.parse(localStorage.getItem('query3'));
+        console.log(recipe_id);
+        let recipe_id_int = parseInt(recipe_id);
+        console.log(recipe_id_int);
         response = await this.axios.get(
-          // "https://test-for-3-2.herokuapp.com/recipes/info",
-          this.$root.store.server_domain + "/recipes/info",
-          {
-            params: { id: this.$route.params.recipeId }
-          }
+          "http://localhost:80"+"/recipes/"+recipe_id
         );
-
-        // console.log("response.status", response.status);
-        if (response.status !== 200) this.$router.replace("/NotFound");
       } catch (error) {
         console.log("error.response.status", error.response.status);
         this.$router.replace("/NotFound");
         return;
       }
-
+      console.log("recipeinfo")
+      console.log(response.data)
       let {
         analyzedInstructions,
         instructions,
         extendedIngredients,
-        aggregateLikes,
+        popularity,
         readyInMinutes,
         image,
         title
-      } = response.data.recipe;
+      } = response.data;
 
       let _instructions = analyzedInstructions
         .map((fstep) => {
@@ -92,7 +91,7 @@ export default {
         _instructions,
         analyzedInstructions,
         extendedIngredients,
-        aggregateLikes,
+        popularity,
         readyInMinutes,
         image,
         title

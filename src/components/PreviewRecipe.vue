@@ -1,115 +1,134 @@
 <template>
-    <div>
-         <b-card
-    :title="Recipe.title"
-    :img-src="Recipe.image"
-    img-alt="Image"
-    img-top
-    tag="article"
-    style="max-width: 20rem;"
-    class="mb-2">
-  <div class=""></div>
-    <b-card-text>
-    <ul class="recipe-overview" style="list-style-type: none;">
-        <li><b-icon-heart-fill style="font-size: 2rem;"></b-icon-heart-fill><span> Likes:</span> {{ Recipe.popularity}}</li>
-        <li> <b-icon-clock-history style="font-size: 2rem;"></b-icon-clock-history><span> Time:</span> {{Recipe.readyInMinutes}} </li>
-        <li><b-icon icon="egg" style="font-size: 2rem;"></b-icon><span>Vegan:</span><font-awesome-icon icon="fa-solid fa-leaf" /> {{Recipe.vegan}}</li>
-        <li><span>Vegeterian:</span><font-awesome-icon icon="fa-solid fa-salad" /> {{Recipe.vegetarian}}</li>
-        <li><span>Gluten-Free:</span><font-awesome-icon icon="fa-solid fa-salad" /> {{Recipe.glutenFree}}</li>
-        <li><font-awesome-icon icon="fa-solid fa-user-secret" /> <span>already Watch:</span>{{IndicationAboutRecipe.alreadyWatchFlag}}</li>
-        <li><b-icon icon="cloud-download" style="font-size: 2rem;"></b-icon> <span>already Save:</span>{{IndicationAboutRecipe.alreadySaveFlag}}</li>
-        
-      </ul> 
-   </b-card-text>
-  </b-card>
-
-        <!-- <h1>title:{{Recipe.title}}</h1>
-        <h1>image:{{Recipe.image}}</h1>
-        <h1>likes:{{Recipe.popularity}}</h1>
-        <h1>time:{{Recipe.readyInMinutes}}</h1>
-        <h1>vegan:{{Recipe.vegan}}</h1>
-        <h1>vegetarian:{{Recipe.vegetarian}}</h1>
-        <h1>glutenFree:{{Recipe.glutenFree}}</h1>
-        <h1>alreadyWatchFlag:{{IndicationAboutRecipe.alreadyWatchFlag}}</h1>
-        <h1>alreadySaveFlag:{{IndicationAboutRecipe.alreadySaveFlag}}</h1> -->
-        
-    </div>
+  <div>
+    <b-card no-body v-bind:title="Recipe.title" img-top tag="article" style="max-width: 20rem;" class="mb-2">
+      <router-link :to="{ name: 'RecipeViewPage' }" @click.native="Watch()">
+      <b-card-img :src="Recipe.image"/> 
+      </router-link>
+      <b-card-title v-bind:title="Recipe.title"></b-card-title>
+      <b-card-text>
+        <ul class="recipe-overview" style="list-style-type: none;">
+          <li><b-icon-heart-fill style="font-size: 2rem;"></b-icon-heart-fill><span> Likes:</span> {{ Recipe.popularity}}</li>
+          <li> <b-icon-clock-history style="font-size: 2rem;"></b-icon-clock-history><span> Time:</span> {{Recipe.readyInMinutes}} </li>
+          <li><b-icon icon="egg" style="font-size: 2rem;"></b-icon><span>Vegan:</span> {{Recipe.vegan}}</li>
+          <li><b-icon-egg-fill style="font-size: 2rem;"></b-icon-egg-fill><span>Vegeterian:</span> {{Recipe.vegetarian}}</li>
+          <li><b-icon-x-circle-fill style="font-size: 2rem;"></b-icon-x-circle-fill><span>Gluten-Free:</span> {{Recipe.glutenFree}}</li>
+          <li>
+            <span>Favorite:</span>
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="margin-left:10px" v-if="this.favortied == true" checked disabled>
+            <input class="form-check-input" type="checkbox" value="" @click="Favorite()" id="flexCheckDefault" style="margin-left:10px" v-else-if="this.favortied != true">
+          </li>
+          <li>
+            <span>Watched:</span>
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="margin-left:10px" v-if="this.watched == true" checked disabled>
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="margin-left:10px" v-else-if="this.watched != true" disabled>
+          </li> 
+        </ul> 
+      </b-card-text>
+    </b-card>     
+  </div>
 </template>
 
 <script>
 import { faLeftRight } from '@fortawesome/free-solid-svg-icons';
 
 export default {
-    name: 'PreviewRecipe',
-    props: {
-     recipe_id: {
-      type: Object,
+  name: 'PreviewRecipe',
+  props: {
+    recipe_id: {
+      type: Number,
       required: true
     },
-    IndicationAboutRecipe: {
-      type: Object,
-      required: false,
-      default() {
-      return undefined;
-    }
-    },
-    Recipe: {
-        type: Object,
-        required: false,
-        default() {
-        return undefined;
-      }
-    }, 
   },
-    data() {
-        return {
-            
-        };
-    },
-
-    mounted() {
-      
-        this.get_Indication_Recipe_Object();
-        this.getRecipe_Object();
-    },
-
-    methods: {
-      
+  data() {
+    return {
+      Recipe:'',
+      favortied:'',
+      watched:''
+    };
+  },
+  mounted() {
+    this.getRecipe_Object();
+    this.getFavorites();
+    this.getWatched();
+    
+  },
+  methods: {  
     async getRecipe_Object(){
-      
       let recipe_id_String=JSON.stringify(this.recipe_id);
-      
-       try {
+      try {
         const response = await this.axios.get(
-           "http://localhost:80"+"/recipes/"+recipe_id_String
+          "http://localhost:80"+"/recipes/"+recipe_id_String
         );
         const RecipeData = response.data;
         this.Recipe=RecipeData;
       } catch (error) {
         console.log(error);
       }
+    },
+    async getFavorites(){
+        try {
+          const response = await this.axios.get("http://localhost:80"+"/users/favorites",);
+          const RecipesData = response.data;
+          let recipes=RecipesData;
+          for(let i = 0; i<recipes.length;i++){
+            if(recipes[i].id == this.recipe_id){
+              this.favortied = true;
+              return;
+            }
+          }
 
-  },
-
-      async get_Indication_Recipe_Object(){
-       try {
-        const response = await this.axios.get(
-           "http://localhost:80"+"/users/user_indication_recipe",
-             {
+          this.favortied = '';
+        } catch (error) {
+          console.log(error);
+        }
+        
+    },
+    async Favorite(){
+      try {
+        const response = await this.axios.post("http://localhost:80"+"/users/favorites",
+          {
             recipeId: this.recipe_id
           }
         );
-        const RecipeData = response.data;
-        this.IndicationAboutRecipe=RecipeData;
+        this.favortied = true;
       } catch (error) {
         console.log(error);
       }
-
-  },
-        
     },
-    
-
+    async getWatched(){
+      try {
+        const response = await this.axios.get("http://localhost:80"+"/users/user_indication_recipe_NEW",);
+        const RecipesData = response.data;
+        let recipes=RecipesData;
+        // console.log("current recipe")
+        // console.log(this.recipe_id)
+        // console.log("all recipes in watched")
+        // console.log(recipes)
+        for(let i = 0; i<recipes.length;i++){
+          if(recipes[i] == this.recipe_id){
+            this.watched = true;
+            return;
+          }
+        }
+        this.watched = '';
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async Watch(){
+      try {
+        const response = await this.axios.post("http://localhost:80"+"/users/user_watched_recipe",
+          {
+            recipeId: this.recipe_id
+          }
+        );
+        const parsed = JSON.stringify(this.recipe_id);
+        this.$root.store.setQuery3(parsed);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  },
 };
 </script>
 

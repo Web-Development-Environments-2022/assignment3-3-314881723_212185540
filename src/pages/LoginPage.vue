@@ -122,6 +122,7 @@ export default {
         const RecipeData = response.data;
         this.$root.store.setQuery1(RecipeData[0].History_Watch_R1);
         this.$root.store.setQuery2(RecipeData[0].History_Watch_R2);
+        this.$root.store.setQuery3(RecipeData[0].History_Watch_R3);
         //this.LastWatch2=RecipeData[0].History_Watch_R2;
         //this.LastWatch3=RecipeData[0].History_Watch_R3;
 

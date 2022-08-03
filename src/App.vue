@@ -34,9 +34,9 @@
       </li>
       <li> 
         <b-dropdown id="dropdown-1" text="Personal" class="m-md-2"  >
-          <b-dropdown-item :to="{ name: 'register' }">Favorites</b-dropdown-item>
-          <b-dropdown-item :to="{ name: 'register' }">Private</b-dropdown-item>
-          <b-dropdown-item :to="{ name: 'register' }">Family Recipe</b-dropdown-item>
+          <b-dropdown-item :to="{ name: 'FavoriteRecipes' }">Favorite Recipes</b-dropdown-item>
+          <b-dropdown-item :to="{ name: 'MyRecipes' }">My Recipes</b-dropdown-item>
+          <b-dropdown-item :to="{ name: 'FamilyRecipes' }">Family Recipe</b-dropdown-item>
           <b-dropdown-item v-b-modal="'modal-prevent-closing'">Create Recipe</b-dropdown-item>
         </b-dropdown>
       <CreateRecipe></CreateRecipe>  

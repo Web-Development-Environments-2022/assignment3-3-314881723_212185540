@@ -129,6 +129,18 @@ const shared_data = {
     localStorage.removeItem("query2");
     this.query2 = undefined;
   },
+  query3: localStorage.query3,
+  setQuery3(query3) {
+    if (localStorage.query3) {
+      localStorage.query3 = query3;
+    } else {
+      localStorage.setItem("query3", query3);
+    }
+  },
+  removeQuery3() {
+    localStorage.removeItem("query3");
+    this.query3 = undefined;
+  },
   searchResults: localStorage.searchResults,
   setSearchResults(searchResults){
       console.log("yo")
