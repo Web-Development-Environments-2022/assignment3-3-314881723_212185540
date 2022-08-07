@@ -150,6 +150,7 @@ const shared_data = {
     localStorage.removeItem("searchResults");
     this.searchResults = undefined;
   },
+  server_domain: 'http://localhost:80'
 };
 console.log(shared_data);
 // Vue.prototype.$root.store = shared_data;

@@ -105,7 +105,7 @@ export default {
     async Login() {
       try {
         const response = await this.axios.post(
-          "http://localhost:80" +"/Login",
+          this.$root.store.server_domain +"/Login",
           {
             username: this.form.username,
             password: this.form.password
@@ -117,7 +117,7 @@ export default {
         this.$root.store.login(this.form.username);
         try {
         const response = await this.axios.get(
-           "http://localhost:80"+"/users/user_last_3_watch",
+           this.$root.store.server_domain+"/users/user_last_3_watch",
         );
         const RecipeData = response.data;
         this.$root.store.setQuery1(RecipeData[0].History_Watch_R1);

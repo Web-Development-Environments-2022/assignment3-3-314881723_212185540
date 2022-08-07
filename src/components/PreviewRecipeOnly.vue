@@ -85,7 +85,7 @@ export default {
     methods: {
       async getFavorites(){
         try {
-          const response = await this.axios.get("http://localhost:80"+"/users/favorites",);
+          const response = await this.axios.get(this.$root.store.server_domain+"/users/favorites",);
           console.log(response)
           const RecipesData = response.data;
           let recipes_new=RecipesData;
@@ -108,7 +108,7 @@ export default {
       },
       async Favorite(){
         try {
-          const response = await this.axios.post("http://localhost:80"+"/users/favorites",
+          const response = await this.axios.post(this.$root.store.server_domain+"/users/favorites",
             {
               recipeId: this.Recipe.id
             }
@@ -120,7 +120,7 @@ export default {
       },
       async getWatched(){
         try {
-          const response = await this.axios.get("http://localhost:80"+"/users/user_indication_recipe_NEW",);
+          const response = await this.axios.get(this.$root.store.server_domain+"/users/user_indication_recipe_NEW",);
           const RecipesData = response.data;
           let recipes=RecipesData;
           for(let i = 0; i<recipes.length;i++){
@@ -138,7 +138,7 @@ export default {
         try {
           const parsed = JSON.stringify(this.Recipe.id);
           this.$root.store.setQuery3(parsed);
-          const response = await this.axios.post("http://localhost:80"+"/users/user_watched_recipe",
+          const response = await this.axios.post(this.$root.store.server_domain+"/users/user_watched_recipe",
             {
               recipeId: this.Recipe.id
             }

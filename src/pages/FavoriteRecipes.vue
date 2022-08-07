@@ -31,7 +31,7 @@ export default {
     methods:{
       async getFavoriteRecipes(){
         try {
-          const response = await this.axios.get("http://localhost:80"+"/users/favorites",);
+          const response = await this.axios.get(this.$root.store.server_domain+"/users/favorites",);
           const RecipesData = response.data;
           this.recipes=RecipesData;
           console.log(this.recipes)

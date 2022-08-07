@@ -60,7 +60,7 @@ export default {
         let recipe_id_int = parseInt(recipe_id);
         console.log(recipe_id_int);
         response = await this.axios.get(
-          "http://localhost:80"+"/recipes/"+recipe_id
+          this.$root.store.server_domain+"/recipes/"+recipe_id
         );
       } catch (error) {
         console.log("error.response.status", error.response.status);

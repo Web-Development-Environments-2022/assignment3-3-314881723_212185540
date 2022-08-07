@@ -62,7 +62,7 @@ export default {
     async getRandom3Recipes(){
       try {
         const response = await this.axios.get(
-           "http://localhost:80"+"/recipes/random",
+           this.$root.store.server_domain+"/recipes/random",
         );
         const RecipeData = response.data;
         this.RecipeRandom1=RecipeData[0];
@@ -76,7 +76,7 @@ export default {
     async getUserLast3Watch(){
       try {
         const response = await this.axios.get(
-           "http://localhost:80"+"/users/user_last_3_watch",
+           this.$root.store.server_domain+"/users/user_last_3_watch",
         );
         await setTimeout(10000);
         const RecipeData = response.data;

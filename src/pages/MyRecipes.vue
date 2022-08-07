@@ -30,7 +30,7 @@ export default {
     methods:{
         async getMyRecipes(){
             try {
-                const response = await this.axios.get("http://localhost:80"+"/users/recipes",);
+                const response = await this.axios.get(this.$root.store.server_domain+"/users/recipes",);
                 const RecipesData = response.data;
                 this.recipes=RecipesData;
                 console.log(this.recipes)

@@ -222,7 +222,7 @@ export default {
             try {
                 const response = await this.axios.post(
                 // "https://test-for-3-2.herokuapp.com/user/Register",
-                    "http://localhost:80" + "/users/createRecipe",
+                    this.$root.store.server_domain + "/users/createRecipe",
                     {
                         recipeId:this.form.recipeId,
                         title: this.form.title,

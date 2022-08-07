@@ -162,7 +162,7 @@ export default {
       }
       try {
         const response = await this.axios.get(
-           "http://localhost:80"+"/recipes/search/query/"+this.query+"/amount/"+this.num,
+           this.$root.store.server_domain +"/recipes/search/query/"+this.query+"/amount/"+this.num,
            {
               params:{
                 cuisine:cuisineFixed,
