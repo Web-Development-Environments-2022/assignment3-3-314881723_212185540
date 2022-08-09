@@ -24,7 +24,7 @@
     <div>
     <!-- <b-card :title="recipe.title" :img-src="recipe.image" img-alt="Image" img-top tag="article" style="max-width: 20rem;" class="mb-2"> -->
       <b-card no-body v-bind:title="Recipe.title" img-top tag="article" style="max-width: 20rem;" class="mb-2">
-        <router-link :to="{ name: 'RecipeViewPage' }" @click.native="Watch()">
+        <router-link :to="{ name: 'RecipeViewPage', params:{id:Recipe.id} } ">
         <b-card-img :src="Recipe.image"/> 
         </router-link>
         <b-card-title v-bind:title="Recipe.title"></b-card-title>
@@ -83,20 +83,36 @@ export default {
       this.getWatched();
     },
     methods: {
+      // async getFavorites(){
+      //   try {
+      //     const response = await this.axios.get(this.$root.store.server_domain+"/users/favorites",);
+      //     console.log(response)
+      //     const RecipesData = response.data;
+      //     let recipes_new=RecipesData;
+      //     console.log("current recipe")
+      //     console.log(this.Recipe.id)
+      //     console.log("all recipes in favorites")
+      //     console.log(recipes_new)
+      //     for(let i = 0; i<recipes_new.length;i++){
+      //       console.log("in recipes iterator")
+      //       console.log(recipes_new[i])
+      //       if(recipes_new[i].id == this.Recipe.id){
+      //         this.favortied = true;
+      //         return;
+      //       }
+      //     }
+      //     this.favortied = '';
+      //   } catch (error) {
+      //     console.log(error);
+      //   } 
+      // },
       async getFavorites(){
         try {
-          const response = await this.axios.get(this.$root.store.server_domain+"/users/favorites",);
-          console.log(response)
-          const RecipesData = response.data;
-          let recipes_new=RecipesData;
-          console.log("current recipe")
-          console.log(this.Recipe.id)
-          console.log("all recipes in favorites")
-          console.log(recipes_new)
-          for(let i = 0; i<recipes_new.length;i++){
-            console.log("in recipes iterator")
-            console.log(recipes_new[i])
-            if(recipes_new[i].id == this.Recipe.id){
+          const response = await this.axios.get(this.$root.store.server_domain+"/users/favoritesIDOnly",);
+          const recipesIDS = response.data;
+          //let recipes=RecipesData;
+          for(let i = 0; i<recipesIDS.length;i++){
+            if(recipesIDS[i] == this.recipe.id){
               this.favortied = true;
               return;
             }
@@ -104,7 +120,8 @@ export default {
           this.favortied = '';
         } catch (error) {
           console.log(error);
-        } 
+        }
+        
       },
       async Favorite(){
         try {
@@ -134,19 +151,19 @@ export default {
           console.log(error);
         }
       },
-      async Watch(){
-        try {
-          const parsed = JSON.stringify(this.Recipe.id);
-          this.$root.store.setQuery3(parsed);
-          const response = await this.axios.post(this.$root.store.server_domain+"/users/user_watched_recipe",
-            {
-              recipeId: this.Recipe.id
-            }
-          );
-        } catch (error) {
-          console.log(error);
-        }
-      },
+      // async Watch(){
+      //   try {
+      //     const parsed = JSON.stringify(this.Recipe.id);
+      //     this.$root.store.setQuery3(parsed);
+      //     const response = await this.axios.post(this.$root.store.server_domain+"/users/user_watched_recipe",
+      //       {
+      //         recipeId: this.Recipe.id
+      //       }
+      //     );
+      //   } catch (error) {
+      //     console.log(error);
+      //   }
+      // },
       getInstructions(){
         //console.log(this.Recipe)
         if(this.Recipe.analyzedInstructions == undefined && this.Recipe.instructions != undefined){
