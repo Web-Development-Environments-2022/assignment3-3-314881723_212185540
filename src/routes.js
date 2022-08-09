@@ -45,6 +45,7 @@ const routes = [
   {
     path: "/RecipeViewPage",
     name: "RecipeViewPage",
+    props: true,
     component: () => import("./pages/RecipeViewPage")
   },
   {

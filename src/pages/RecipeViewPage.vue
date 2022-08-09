@@ -44,6 +44,12 @@
 <script>
 export default {
   name:"RecipeViewPage",
+  props:{
+    id:{
+      type: Number,
+      required: false
+    }
+  },
   data() {
     return {
       recipe: null
@@ -54,13 +60,15 @@ export default {
       let response;
       // response = this.$route.params.response;
       try {
-        console.log(localStorage.getItem('query3'))
-        let recipe_id=JSON.parse(localStorage.getItem('query3'));
-        console.log(recipe_id);
-        let recipe_id_int = parseInt(recipe_id);
-        console.log(recipe_id_int);
+        // console.log(localStorage.getItem('query3'))
+        // let recipe_id=JSON.parse(localStorage.getItem('query3'));
+        // console.log(recipe_id);
+        // let recipe_id_int = parseInt(recipe_id);
+        // console.log(recipe_id_int);
+        console.log("the recipe id we got from params:")
+        console.log(this.id)
         response = await this.axios.get(
-          this.$root.store.server_domain+"/recipes/"+recipe_id
+          this.$root.store.server_domain+"/recipes/"+this.id
         );
       } catch (error) {
         console.log("error.response.status", error.response.status);
@@ -98,6 +106,17 @@ export default {
       };
 
       this.recipe = _recipe;
+      try {
+        // const parsed = JSON.stringify(this.xd);
+        // this.$root.store.setQuery3(parsed);
+        const response = await this.axios.post(this.$root.store.server_domain+"/users/user_watched_recipe",
+          {
+            recipeId: this.id
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
     } catch (error) {
       console.log(error);
     }

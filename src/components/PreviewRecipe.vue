@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-card no-body v-bind:title="Recipe.title" img-top tag="article" style="max-width: 20rem;" class="mb-2">
-      <router-link :to="{ name: 'RecipeViewPage' }" @click.native="Watch()">
+      <router-link :to="{ name: 'RecipeViewPage', params:{id:recipe_id} } ">
       <b-card-img :src="Recipe.image"/> 
       </router-link>
       <b-card-title v-bind:title="Recipe.title"></b-card-title>
@@ -65,23 +65,39 @@ export default {
         console.log(error);
       }
     },
-    async getFavorites(){
-        try {
-          const response = await this.axios.get(this.$root.store.server_domain+"/users/favorites",);
-          const RecipesData = response.data;
-          let recipes=RecipesData;
-          for(let i = 0; i<recipes.length;i++){
-            if(recipes[i].id == this.recipe_id){
-              this.favortied = true;
-              return;
-            }
-          }
+    // async getFavorites(){
+    //     try {
+    //       const response = await this.axios.get(this.$root.store.server_domain+"/users/favorites",);
+    //       const RecipesData = response.data;
+    //       let recipes=RecipesData;
+    //       for(let i = 0; i<recipes.length;i++){
+    //         if(recipes[i].id == this.recipe_id){
+    //           this.favortied = true;
+    //           return;
+    //         }
+    //       }
 
-          this.favortied = '';
-        } catch (error) {
-          console.log(error);
-        }
+    //       this.favortied = '';
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
         
+    // },
+    async getFavorites(){
+      try {
+        const response = await this.axios.get(this.$root.store.server_domain+"/users/favoritesIDOnly",);
+        const recipesIDS = response.data;
+        //let recipes=RecipesData;
+        for(let i = 0; i<recipesIDS.length;i++){
+          if(recipesIDS[i] == this.recipe.id){
+            this.favortied = true;
+            return;
+          }
+        }
+        this.favortied = '';
+      } catch (error) {
+        console.log(error);
+      }
     },
     async Favorite(){
       try {
@@ -115,19 +131,19 @@ export default {
         console.log(error);
       }
     },
-    async Watch(){
-      try {
-        const response = await this.axios.post(this.$root.store.server_domain+"/users/user_watched_recipe",
-          {
-            recipeId: this.recipe_id
-          }
-        );
-        const parsed = JSON.stringify(this.recipe_id);
-        this.$root.store.setQuery3(parsed);
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    // async Watch(){
+    //   try {
+    //     const response = await this.axios.post(this.$root.store.server_domain+"/users/user_watched_recipe",
+    //       {
+    //         recipeId: this.recipe_id
+    //       }
+    //     );
+    //     const parsed = JSON.stringify(this.recipe_id);
+    //     this.$root.store.setQuery3(parsed);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
   },
 };
 </script>
